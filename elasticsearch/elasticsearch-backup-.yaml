@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: els-backup
+spec:
+  schedule: "0 0 * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: backup:tag
+              volumeMounts:
+                - name: es-snapshot-config
+                  mountPath: /etc/backups/elasticsearch
+              resources:
+                requests:
+                  memory: "256Mi"
+                  cpu: "100m"
+                limits:
+                  memory: "512Mi"
+                  cpu: "500m"
+          volumes:
+            - name: es-snapshot-config
+              configMap:
+                name: es-snapshot-config

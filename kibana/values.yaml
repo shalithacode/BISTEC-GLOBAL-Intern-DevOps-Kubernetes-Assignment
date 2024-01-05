@@ -1,0 +1,14 @@
+kibana:
+  image: docker.elastic.co/kibana/kibana:7.10.0
+  replicas: 1
+  elasticsearchHosts: "http://elasticsearch-release:9200"
+  resources:
+    limits:
+      memory: 1Gi
+    requests:
+      memory: 512Mi
+
+service:
+  enabled: true
+  annotations: {}
+  port: 5601
